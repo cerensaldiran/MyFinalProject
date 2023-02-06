@@ -38,13 +38,13 @@ namespace Business.Concrete
         public IDataResult<List<Product>> GetAll()
         {
             //iş kodları
-            //Yetkisi var mı?
-            if (DateTime.Now.Hour==20)
+            //Yetkisi var mı ?
+            if (DateTime.Now.Hour == 22)
             {
                 return new ErrorDataResult<List<Product>>(Messages.MaintenanceTime);
             }
-          
-                return new SuccessDataResult<List<Product>>(_productDal.GetAll(), Messages.ProductsListed);
+
+            return new SuccessDataResult<List<Product>>(_productDal.GetAll(), Messages.ProductsListed);
 
             
         }
