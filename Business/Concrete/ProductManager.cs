@@ -39,7 +39,7 @@ namespace Business.Concrete
         }
 
         //Claim
-        [SecuredOperation("product.add, admin")]
+        //[SecuredOperation("product.add, admin")]
         [ValidationAspect(typeof(ProductValidator))]
         [CacheRemoveAspect("IProductService.Get")]
 
@@ -123,7 +123,7 @@ namespace Business.Concrete
         private IResult CheckIfProductCountOfCategoryCorrect(int categoryId)
         {
             var result = _productDal.GetAll(p => p.CategoryId == categoryId);
-            if (result.Count >= 10)
+            if (result.Count >= 50)
             {
                 return new ErrorResult(Messages.ProductCountOfCategoryError);
             }
@@ -132,12 +132,17 @@ namespace Business.Concrete
 
         private IResult CheckIfProductNameExists(string productName)
         {
-            var result = _productDal.GetAll(p => p.ProductName==productName);
-            if (result!=null)
+            var result = _productDal.GetAll(p => p.ProductName==productName).Any();
+            if (result)
             {
                 return new ErrorResult(Messages.ProductNameAlreadyExists);
+
+
             }
             return new SuccessResult();
+
+
+
         }
 
         private IResult CheckIfCategoryLimitExceded()
